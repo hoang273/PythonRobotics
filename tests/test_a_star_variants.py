@@ -1,6 +1,5 @@
-import PathPlanning.AStar.a_star_variants as a_star
+import AStar.a_star_variants as a_star
 import conftest
-
 
 def test_1():
     # A* with beam search

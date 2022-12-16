@@ -10,14 +10,14 @@ See Wikipedia article (https://en.wikipedia.org/wiki/Bidirectional_search)
 
 import math
 
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plot
 
 show_animation = True
 
 
 class BidirectionalAStarPlanner:
 
-    def __init__(self, ox, oy, resolution, rr):
+    def __init__(self, ox, oy, resolution, rr,ax):
         """
         Initialize grid map for a star planning
 
@@ -27,6 +27,8 @@ class BidirectionalAStarPlanner:
         rr: robot radius[m]
         """
 
+        self.plt=ax
+        self.plt.set_title("Bidi Astar")
         self.min_x, self.min_y = None, None
         self.max_x, self.max_y = None, None
         self.x_width, self.y_width, self.obstacle_map = None, None, None
@@ -98,18 +100,18 @@ class BidirectionalAStarPlanner:
 
             # show graph
             if show_animation:  # pragma: no cover
-                plt.plot(self.calc_grid_position(current_A.x, self.min_x),
+                self.plt.plot(self.calc_grid_position(current_A.x, self.min_x),
                          self.calc_grid_position(current_A.y, self.min_y),
                          "xc")
-                plt.plot(self.calc_grid_position(current_B.x, self.min_x),
+                self.plt.plot(self.calc_grid_position(current_B.x, self.min_x),
                          self.calc_grid_position(current_B.y, self.min_y),
                          "xc")
                 # for stopping simulation with the esc key.
-                plt.gcf().canvas.mpl_connect(
-                    'key_release_event',
-                    lambda event: [exit(0) if event.key == 'escape' else None])
-                if len(closed_set_A.keys()) % 10 == 0:
-                    plt.pause(0.001)
+                # self.plt.gcf().canvas.mpl_connect(
+                #     'key_release_event',
+                #     lambda event: [exit(0) if event.key == 'escape' else None])
+                # if len(closed_set_A.keys()) % 10 == 0:
+                #     self.plt.pause(0.001)
 
             if current_A.x == current_B.x and current_A.y == current_B.y:
                 print("Found goal")
@@ -295,53 +297,53 @@ class BidirectionalAStarPlanner:
         return motion
 
 
-def main():
-    print(__file__ + " start!!")
+# def main():
+#     print(__file__ + " start!!")
 
-    # start and goal position
-    sx = 10.0  # [m]
-    sy = 10.0  # [m]
-    gx = 50.0  # [m]
-    gy = 50.0  # [m]
-    grid_size = 2.0  # [m]
-    robot_radius = 1.0  # [m]
+#     # start and goal position
+#     sx = 10.0  # [m]
+#     sy = 10.0  # [m]
+#     gx = 50.0  # [m]
+#     gy = 50.0  # [m]
+#     grid_size = 2.0  # [m]
+#     robot_radius = 1.0  # [m]
 
-    # set obstacle positions
-    ox, oy = [], []
-    for i in range(-10, 60):
-        ox.append(i)
-        oy.append(-10.0)
-    for i in range(-10, 60):
-        ox.append(60.0)
-        oy.append(i)
-    for i in range(-10, 61):
-        ox.append(i)
-        oy.append(60.0)
-    for i in range(-10, 61):
-        ox.append(-10.0)
-        oy.append(i)
-    for i in range(-10, 40):
-        ox.append(20.0)
-        oy.append(i)
-    for i in range(0, 40):
-        ox.append(40.0)
-        oy.append(60.0 - i)
+#     # set obstacle positions
+#     ox, oy = [], []
+#     for i in range(-10, 60):
+#         ox.append(i)
+#         oy.append(-10.0)
+#     for i in range(-10, 60):
+#         ox.append(60.0)
+#         oy.append(i)
+#     for i in range(-10, 61):
+#         ox.append(i)
+#         oy.append(60.0)
+#     for i in range(-10, 61):
+#         ox.append(-10.0)
+#         oy.append(i)
+#     for i in range(-10, 40):
+#         ox.append(20.0)
+#         oy.append(i)
+#     for i in range(0, 40):
+#         ox.append(40.0)
+#         oy.append(60.0 - i)
 
-    if show_animation:  # pragma: no cover
-        plt.plot(ox, oy, ".k")
-        plt.plot(sx, sy, "og")
-        plt.plot(gx, gy, "ob")
-        plt.grid(True)
-        plt.axis("equal")
+#     if show_animation:  # pragma: no cover
+#         plt.plot(ox, oy, ".k")
+#         plt.plot(sx, sy, "og")
+#         plt.plot(gx, gy, "ob")
+#         plt.grid(True)
+#         plt.axis("equal")
 
-    bidir_a_star = BidirectionalAStarPlanner(ox, oy, grid_size, robot_radius)
-    rx, ry = bidir_a_star.planning(sx, sy, gx, gy)
+#     bidir_a_star = BidirectionalAStarPlanner(ox, oy, grid_size, robot_radius)
+#     rx, ry = bidir_a_star.planning(sx, sy, gx, gy)
 
-    if show_animation:  # pragma: no cover
-        plt.plot(rx, ry, "-r")
-        plt.pause(.0001)
-        plt.show()
+#     if show_animation:  # pragma: no cover
+#         plt.plot(rx, ry, "-r")
+#         plt.pause(.0001)
+#         plt.show()
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
